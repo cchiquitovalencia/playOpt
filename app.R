@@ -9,6 +9,10 @@ library(tictoc)
 library(stringr)
 library(purrr)
 library(tibble)
+library(ompr)
+library(ompr.roi)
+library(ROI.plugin.glpk)
+
 
 tic("Lectura")
 # Carga el archivo HTML
@@ -180,73 +184,6 @@ simbolos <- simbolos  |>
   group_split(signo_1)
 
 
-# if(length(simbolos) == 1){
-#   
-#   escenario_base <- escenario_base + 
-#     geom_point(data = elementos[[1]],
-#                size = 9, shape = 17, color = "#1e2c46") +
-#     geom_point(data = elementos[[2]],
-#                size = 12, shape = 19, color = "#de6f41")+
-#     geom_point(data = simbolos[[1]] |> 
-#                  filter(sentido_1 == "down") |> 
-#                  mutate(eje_x = eje_x + 0.5), 
-#                shape = "X", size = 2, color = "black", stroke = 5)+
-#     geom_point(data = simbolos[[1]] |> 
-#                  filter(sentido_1 == "right") |> 
-#                  mutate(eje_y = eje_y + 0.5), 
-#                shape = "X", size = 2, color = "black", stroke = 5)
-#   
-# } else{
-#   
-#   
-#   escenario_base <- escenario_base + 
-#     geom_point(data = elementos[[1]],
-#                size = 9, shape = 17, color = "#1e2c46") +
-#     geom_point(data = elementos[[2]],
-#                size = 12, shape = 19, color = "#de6f41")+
-#     geom_point(data = simbolos[[1]] |> 
-#                  filter(sentido_1 == "down") |> 
-#                  mutate(eje_x = eje_x + 0.5), 
-#                shape = "X", size = 2, color = "black", stroke = 5)+
-#     geom_point(data = simbolos[[1]] |> 
-#                  filter(sentido_1 == "right") |> 
-#                  mutate(eje_y = eje_y + 0.5), 
-#                shape = "X", size = 2, color = "black", stroke = 5)+
-#     geom_point(data = simbolos[[2]] |> 
-#                  filter(sentido_1 == "down") |> 
-#                  mutate(eje_x = eje_x + 0.5), 
-#                shape = "=", size = 6, color = "black", stroke = 5)+
-#     geom_point(data = simbolos[[2]] |> 
-#                  filter(sentido_1 == "right") |> 
-#                  mutate(eje_y = eje_y + 0.5), 
-#                shape = "=", size = 6, color = "black", stroke = 5)
-#   
-# }
-# 
-# 
-# escenario_base
-
-
-# convertir_simbolos <- function(simbolos) {
-#   simbolos |> 
-#     mutate(
-#       nx = eje_x + as.integer(sentido_1 == "down"),
-#       ny = eje_y + as.integer(sentido_1 == "right")
-#     )
-# }
-# 
-# cruces <- simbolos[[1]] |> 
-#   convertir_simbolos()
-# 
-# iguales <- simbolos[[2]] |> 
-#   convertir_simbolos()
-# 
-# restricciones <- bind_rows(cruces, iguales)
-
-
-library(dplyr)
-library(purrr)
-
 # Función para añadir columnas calculadas
 convertir_simbolos <- function(simbolo) {
   simbolo |> 
@@ -294,26 +231,22 @@ valores_fijos <- final %>%
   mutate(valor = ifelse(img == "Moon" | img == "Luna", 1L, 2L))
 
 
-
-library(ompr)
-library(dplyr)
-
 n <- 6
 model <- MIPModel() %>%
   
-  # The number k stored in position i,j
+  # La figura k almacenada en la posición i,j
   add_variable(x[i, j, k], i = 1:n, j = 1:n, k = 1:2, type = "binary") %>%
   
-  # no objective
+  # no objetivo
   set_objective(0) %>%
   
-  # only one number can be assigned per cell
+  # solo una figura asignada por celda
   add_constraint(sum_over(x[i, j, k], k = 1:2) == 1, i = 1:n, j = 1:n) %>%
   
-  # each number is exactly once in a row
+  # cada una figura asignada exactamente tres veces por fila
   add_constraint(sum_over(x[i, j, k], j = 1:n) == 3, i = 1:n, k = 1:2) %>%
   
-  # each number is exactly once in a column
+  # cada una figura asignada exactamente tres veces por columna
   add_constraint(sum_over(x[i, j, k], i = 1:n) == 3, j = 1:n, k = 1:2) %>% 
   
   # Prohibir tres números iguales consecutivos en filas
@@ -336,10 +269,6 @@ for (row in seq_len(nrow(valores_fijos))) {
   model <- model %>%
     add_constraint(x[i, j, k_fijo] == 1)
 }
-
-
-
-library(purrr)
 
 # Función general para aplicar restricciones entre pares
 add_pair_constraints <- function(model, pairs, operator, n) {
@@ -378,8 +307,6 @@ model <- model %>%
 
 model
 
-library(ompr.roi)
-library(ROI.plugin.glpk)
 result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
 
 optimo <- result %>% 
@@ -586,8 +513,7 @@ ui <- fluidPage(
   "))
   ),
   
-  div(class = "game-title", "🕹️  Juego de Optimización"),
-  
+  div(class = "game-title", "🕹️   Optimiz jugando"),
   
   setBackgroundColor(
     color = "ghostwhite",
@@ -608,8 +534,6 @@ ui <- fluidPage(
         }')
   )),
   
-  
-  
   tags$style(HTML("
   #sidebar {
     line-height: 1.3;
@@ -629,20 +553,6 @@ ui <- fluidPage(
     margin-bottom: 0.6em;
   }
 ")),
-  
-  # mainPanel(
-  #   width = 6,
-  #   tagList(
-  #     uiOutput("board_ui"),
-  #     br(),  # Espacio vertical
-  #     div(style = "text-align: center; font-size: 18px; font-weight: bold; color: #1e2c46;",
-  #         "⏱ Tiempo: ", span(id = "timer", "00:00")
-  #     ),
-  #     br(),
-  #     actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
-  #     
-  #   )
-  # ),
   
   mainPanel(
     width = 6,
@@ -873,8 +783,6 @@ server <- function(input, output, session) {
   }
 "))
   
-  
-  
   observe({
     lapply(1:n_rows, function(i) {
       lapply(1:n_cols, function(j) {
@@ -915,27 +823,7 @@ server <- function(input, output, session) {
                          HTML("<input id='winner_email' type='email' placeholder='ejemplo@correo.com' style='width:100%; padding:10px; font-size:20px;'><br><span style='color: #1e2c46;'>Tu correo electrónico</span>")
                   )
                 ),br(),
-                # fluidRow(
-                #   column(6, 
-                #          HTML("<button id='submit_email' style='background-color: #de6f41; color: #1e2c46; padding:10px20px; border: none; border-radius:15px; cursor: pointer;'>Enviar</button>")),
-                #   column(6,
-                #          HTML("<button id='cancel' style='background-color: #889fbf; color: #1e2c46; padding:10px20px; border: none; border-radius:15px; cursor: pointer;'>Cancelar</button>")
-                #   )
-                # ),
               ),
-              #              fluidRow(
-              #                column(12,
-              #                       HTML("<div style='text-align: center; margin-top: 20px;'>
-              # <button id='submit_email' style='background-color: #de6f41; color: #1e2c46; padding: 10px 20px; border: none; border-radius:15px; cursor: pointer;'>
-              # Enviar
-              # </button>
-              # <button id='cancel' style='background-color: #889fbf; color: #1e2c46; padding: 10px 20px; border: none; border-radius:15px; cursor: pointer;'>
-              # Cancelar
-              # </button>
-              # </div>")
-              #                )
-              #              ),
-              
               fluidRow(
                 column(12,
                        div(style='text-align: center; margin-top: 20px;',
@@ -946,14 +834,10 @@ server <- function(input, output, session) {
               ),
               
               easyClose = FALSE,
-              #footer = "Sígueme en Instagram: @cchiquitovalencia"
               footer = HTML("Sígueme en <a href='https://www.instagram.com/cchiquitovalencia' target='_blank' style='color: #de6f41; text-decoration: none;'>@cchiquitovalencia</a>")
               
             ))
-            
           }
-          
-          
         }, ignoreInit = TRUE)
       })
     })
@@ -991,5 +875,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
-
-
