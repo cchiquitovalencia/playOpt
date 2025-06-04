@@ -7,6 +7,7 @@ library(rvest)
 library(ggplot2)
 library(tictoc)
 library(stringr)
+library(purrr)
 library(tibble)
 
 tic("Lectura")
