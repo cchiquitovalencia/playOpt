@@ -639,9 +639,8 @@ ui <- fluidPage(
           "⏱ Tiempo: ", span(id = "timer", "00:00")
       ),
       br(),
-      actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
-      
-    )
+      actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary"),
+      br()
   ),
   
   sidebarPanel(
@@ -698,7 +697,7 @@ ui <- fluidPage(
     )
   )
   
-)
+))
 
 
 # Server
@@ -792,9 +791,9 @@ server <- function(input, output, session) {
                          horizontal_connectors)
           if (length(conn) > 0) {
             symb <- conn[[1]]$symbol
-            connector_cell <- tags$td(symb, style = "width: 20px; text-align: center; font-weight: bold; font-size: 20px; color: #de6f41;")
+            connector_cell <- tags$td(symb, style = "width: 10px; text-align: center; font-weight: bold; font-size: 10px; color: #de6f41;")
           } else {
-            connector_cell <- tags$td(" ", style = "width: 20px;")
+            connector_cell <- tags$td(" ", style = "width: 10px;")
           }
           cell_row <- append(cell_row, list(connector_cell))
         }
@@ -812,9 +811,9 @@ server <- function(input, output, session) {
                          vertical_connectors)
           if (length(conn) > 0) {
             symb <- conn[[1]]$symbol
-            conn_cell <- tags$td(symb, style = "height: 20px; text-align: center; font-weight: bold; font-size: 20px; color: #de6f41;")
+            conn_cell <- tags$td(symb, style = "height: 10px; text-align: center; font-weight: bold; font-size: 10px; color: #de6f41;")
           } else {
-            conn_cell <- tags$td(" ", style = "height: 20px;")
+            conn_cell <- tags$td(" ", style = "height: 10px;")
           }
           conn_row <- append(conn_row, list(conn_cell))
           
