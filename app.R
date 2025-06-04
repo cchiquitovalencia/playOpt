@@ -9,7 +9,7 @@ library(tictoc)
 
 tic("Lectura")
 # Carga el archivo HTML
-game_html <- read_html("/Users/cristianchiquito/Documents/tango/game12.html")
+game_html <- read_html("./escenarios/game12.html")
 
 lotka_cells <- game_html %>% 
   html_nodes("div.lotka-cell")
