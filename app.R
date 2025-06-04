@@ -16,7 +16,8 @@ library(ROI.plugin.glpk)
 
 tic("Lectura")
 # Carga el archivo HTML
-game_html <- read_html("./escenarios/game12.html")
+game_html <- read_html(sample(list.files("./escenarios", pattern = "\\.html$", full.names = TRUE), 1))
+#read_html("./escenarios/game12.html")
 
 lotka_cells <- game_html %>% 
   html_nodes("div.lotka-cell")
