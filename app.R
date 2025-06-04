@@ -7,6 +7,7 @@ library(rvest)
 #library(tidyverse)
 library(tictoc)
 library(stringr)
+library(tibble)
 
 tic("Lectura")
 # Carga el archivo HTML
