@@ -513,7 +513,7 @@ ui <- fluidPage(
   "))
   ),
   
-  div(class = "game-title", "🕹️   Optimiz jugando"),
+  div(class = "game-title", "🕹️   Optimiza Jugando"),
   
   setBackgroundColor(
     color = "ghostwhite",
