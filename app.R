@@ -630,19 +630,37 @@ ui <- fluidPage(
   }
 ")),
   
+  # mainPanel(
+  #   width = 6,
+  #   tagList(
+  #     uiOutput("board_ui"),
+  #     br(),  # Espacio vertical
+  #     div(style = "text-align: center; font-size: 18px; font-weight: bold; color: #1e2c46;",
+  #         "⏱ Tiempo: ", span(id = "timer", "00:00")
+  #     ),
+  #     br(),
+  #     actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
+  #     
+  #   )
+  # ),
+  
   mainPanel(
     width = 6,
     tagList(
-      uiOutput("board_ui"),
+      div(style = "display: flex; justify-content: center;",
+          uiOutput("board_ui")
+      ),
       br(),  # Espacio vertical
       div(style = "text-align: center; font-size: 18px; font-weight: bold; color: #1e2c46;",
           "⏱ Tiempo: ", span(id = "timer", "00:00")
       ),
       br(),
-      actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
-      
+      div(style = "text-align: center;",
+          actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
+      )
     )
   ),
+  
   
   sidebarPanel(
     width = 4,
