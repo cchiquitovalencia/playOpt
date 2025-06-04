@@ -16,10 +16,8 @@ library(ROI.plugin.glpk)
 
 tic("Lectura")
 # Carga el archivo HTML
-set.seed(as.numeric(Sys.time()))  # Semilla cambia con el tiempo
-game_html <- read_html(sample(list.files("./escenarios", pattern = "\\.html$", full.names = TRUE), 1))
 
-#game_html <- read_html(sample(list.files("./escenarios", pattern = "\\.html$", full.names = TRUE), 1))
+game_html <- read_html(sample(list.files("./escenarios", pattern = "\\.html$", full.names = TRUE), 1))
 #read_html("./escenarios/game12.html")
 
 lotka_cells <- game_html %>% 
