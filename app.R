@@ -4,7 +4,7 @@ library(shinyjs)
 library(bslib)
 library(dplyr)
 library(rvest)
-library(tidyverse)
+#library(tidyverse)
 library(tictoc)
 
 tic("Lectura")
