@@ -777,7 +777,7 @@ server <- function(input, output, session) {
         border_color <- if (highlights[i, j]) "red" else "#889fbf"
         
         style <- paste0(
-          "width: 70px; height: 70px; padding: 0; text-align: center;",
+          "width: 40px; height: 40px; padding: 0; text-align: center;",
           "border: 3px solid ", border_color, "; background-color: ", bg_color, ";"
         )
         
