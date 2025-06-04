@@ -639,8 +639,9 @@ ui <- fluidPage(
           "⏱ Tiempo: ", span(id = "timer", "00:00")
       ),
       br(),
-      actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary"),
-      br()
+      actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
+      
+    )
   ),
   
   sidebarPanel(
@@ -697,7 +698,7 @@ ui <- fluidPage(
     )
   )
   
-))
+)
 
 
 # Server
