@@ -6,6 +6,7 @@ library(dplyr)
 library(rvest)
 #library(tidyverse)
 library(tictoc)
+library(stringr)
 
 tic("Lectura")
 # Carga el archivo HTML
