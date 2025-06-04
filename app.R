@@ -657,7 +657,8 @@ ui <- fluidPage(
       br(),
       div(style = "text-align: center;",
           actionButton("reset_board", "🔄 Reiniciar Tablero", class = "btn btn-primary")
-      )
+      ),
+      br()
     )
   ),
   
