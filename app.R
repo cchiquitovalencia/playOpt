@@ -756,8 +756,8 @@ server <- function(input, output, session) {
         
         value_icon <- switch(
           value,
-          "Moon" = HTML('<svg width="48" height="48" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" style="fill:#de6f41;" /></svg>'),
-          "Sun"  = HTML('<svg width="48" height="48" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" style="fill:#1e2c46;" /></svg>'),
+          "Moon" = HTML('<svg width="32" height="32" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" style="fill:#de6f41;" /></svg>'),
+          "Sun"  = HTML('<svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" style="fill:#1e2c46;" /></svg>'),
           value
         )
         
