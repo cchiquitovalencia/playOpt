@@ -810,9 +810,9 @@ server <- function(input, output, session) {
                          horizontal_connectors)
           if (length(conn) > 0) {
             symb <- conn[[1]]$symbol
-            connector_cell <- tags$td(symb, style = "width: 10px; text-align: center; font-weight: bold; font-size: 10px; color: #de6f41;")
+            connector_cell <- tags$td(symb, style = "width: 15px; text-align: center; font-weight: bold; font-size: 15px; color: #de6f41;")
           } else {
-            connector_cell <- tags$td(" ", style = "width: 10px;")
+            connector_cell <- tags$td(" ", style = "width: 15px;")
           }
           cell_row <- append(cell_row, list(connector_cell))
         }
@@ -830,9 +830,9 @@ server <- function(input, output, session) {
                          vertical_connectors)
           if (length(conn) > 0) {
             symb <- conn[[1]]$symbol
-            conn_cell <- tags$td(symb, style = "height: 10px; text-align: center; font-weight: bold; font-size: 10px; color: #de6f41;")
+            conn_cell <- tags$td(symb, style = "height: 15px; text-align: center; font-weight: bold; font-size: 15px; color: #de6f41;")
           } else {
-            conn_cell <- tags$td(" ", style = "height: 10px;")
+            conn_cell <- tags$td(" ", style = "height: 15px;")
           }
           conn_row <- append(conn_row, list(conn_cell))
           
