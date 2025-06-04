@@ -631,7 +631,7 @@ ui <- fluidPage(
 ")),
   
   mainPanel(
-    width = 8,
+    width = 6,
     tagList(
       uiOutput("board_ui"),
       br(),  # Espacio vertical
